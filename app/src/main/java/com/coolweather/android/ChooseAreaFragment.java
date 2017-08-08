@@ -2,6 +2,7 @@ package com.coolweather.android;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +67,7 @@ public class ChooseAreaFragment extends Fragment {
     /**
      * 当前选中的级别
      */
-    private int currentlevel;
+    private int currentLevel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,7 @@ public class ChooseAreaFragment extends Fragment {
         backButton = (Button) view.findViewById(R.id.back_button);
         listView = (ListView) view.findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dataList);
+        /*getContext()是Android 6.0 以上版本的；在我的手机中没法测试；因此选择getActivity() */
         listView.setAdapter(adapter);
         return view;
     }
@@ -87,12 +89,18 @@ public class ChooseAreaFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(currentlevel == LEVEL_PROVINCE){
+                if(currentLevel == LEVEL_PROVINCE){
                     selectedProvince = provinceList.get(position);
                     queryCities();
-                }else if(currentlevel == LEVEL_CITY){
+                }else if(currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
                     queryCounties();
+                }else if (currentLevel == LEVEL_COUNTY) {/*显示天气数据时加的*/
+                        String weatherId = countyList.get(position).getWeatherId();
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id", weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
                 }
             }
         });
@@ -100,9 +108,9 @@ public class ChooseAreaFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(currentlevel == LEVEL_COUNTY){
+                if(currentLevel == LEVEL_COUNTY){
                     queryCities();
-                }else if(currentlevel == LEVEL_CITY){
+                }else if(currentLevel == LEVEL_CITY){
                     queryProvinces();
                 }
             }
@@ -124,7 +132,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentlevel = LEVEL_PROVINCE;
+            currentLevel = LEVEL_PROVINCE;
         }else{
             String address = "http://guolin.tech/api/china";
             queryFromServer(address, "province");
@@ -145,7 +153,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentlevel = LEVEL_CITY;
+            currentLevel = LEVEL_CITY;
         }else {
             int provinceCode = selectedProvince.getProvinceCode();
             String address = "http://guolin.tech/api/china/" + provinceCode;
@@ -167,7 +175,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentlevel = LEVEL_COUNTY;
+            currentLevel = LEVEL_COUNTY;
         }else {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
@@ -182,7 +190,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryFromServer(String address, final String type){
         showProgressDialog();
 
-        HttpUtil.sedOkHttpRequest(address, new Callback() {
+        HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
@@ -213,12 +221,13 @@ public class ChooseAreaFragment extends Fragment {
 
             @Override
             public void onFailure(Call call, IOException e) {
-                //通过runOnUIThread（）方法回到主线程处理逻辑
+                //通过runOnUiThread（）方法回到主线程处理逻辑
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         closeProgressDialog();
                         Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
+                        /*getContext()是Android 6.0 以上版本的；在我的手机中没法测试；因此选择getActivity() */
                     }
                 });
             }
