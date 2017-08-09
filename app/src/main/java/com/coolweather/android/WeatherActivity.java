@@ -211,9 +211,14 @@ public class WeatherActivity extends AppCompatActivity {
      * 处理并展示Weather实体类中的数据
      * @param weather
      */
-    private void showWeatherInfo(Weather weather) {
-        String cityName = weather.basic.cityName;
-        String updateTime = weather.basic.update.updateTime.split(" ")[1];
+    String cityName;
+    String updateTime;
+    String comfort;
+    String carWash;
+    String sport;
+   private void showWeatherInfo(Weather weather) {
+        cityName = weather.basic.cityName;
+        updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
@@ -237,9 +242,9 @@ public class WeatherActivity extends AppCompatActivity {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
-        String comfort = "舒适度：" + weather.suggestion.comfort.info;
-        String carWash = "洗车指数：" + weather.suggestion.carWash.info;
-        String sport = "运行建议：" + weather.suggestion.sport.info;
+        comfort = "舒适度：" + weather.suggestion.comfort.info;
+        carWash = "洗车指数：" + weather.suggestion.carWash.info;
+        sport = "运行建议：" + weather.suggestion.sport.info;
         comfortText.setText(comfort);
         carWashText.setText(carWash);
         sportText.setText(sport);
@@ -247,5 +252,17 @@ public class WeatherActivity extends AppCompatActivity {
         //激活AutoUpdateService服务
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
+    }
+    /*
+    *分享生活建议
+    * */
+    public void onShare(View view) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, cityName + updateTime + ":\n" + comfort + "\n" + carWash + "\n" + sport);
+        shareIntent.setType("text/plain");
+
+        //设置分享列表的标题，并且每次都显示分享列表
+        startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 }

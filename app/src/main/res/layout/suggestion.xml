@@ -6,15 +6,32 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:background="#8000">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="生活建议"
-        android:textColor="#fff"
-        android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="生活建议"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+
+
+        <!--分享天气-->
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@android:drawable/ic_menu_share"
+            android:onClick="onShare"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/comfort_text"
