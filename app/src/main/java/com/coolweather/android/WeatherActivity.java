@@ -2,6 +2,8 @@ package com.coolweather.android;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +29,10 @@ import com.coolweather.android.util.HttpUtil;
 import com.coolweather.android.util.Utility;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -48,12 +54,16 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView titleUpdateTime;
     private TextView degreeText;
     private TextView weatherInfoText;
+    private ImageView weatherImg;
     private LinearLayout forecastLayout;
     private TextView aqiText;
     private TextView pm25Text;
     private TextView comfortText;
     private TextView carWashText;
+    private TextView dressingText;
+    private TextView fluText;
     private TextView sportText;
+    private TextView ultraVioleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -83,12 +93,16 @@ public class WeatherActivity extends AppCompatActivity {
         titleUpdateTime = (TextView)findViewById(R.id.title_update_time);
         degreeText = (TextView)findViewById(R.id.degree_text);
         weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
+        weatherImg = (ImageView)findViewById(R.id.weather_img);
         forecastLayout = (LinearLayout)findViewById(R.id.forecast_layout);
         aqiText = (TextView)findViewById(R.id.aqi_text);
         pm25Text = (TextView)findViewById(R.id.pm25_text);
         comfortText = (TextView)findViewById(R.id.comfort_text);
         carWashText = (TextView) findViewById(R.id.car_wash_text);
+        dressingText = (TextView)findViewById(R.id.dressing_text);
+        fluText = (TextView)findViewById(R.id.flu_text);
         sportText = (TextView)findViewById(R.id.sport_text);
+        ultraVioleText = (TextView)findViewById(R.id.ultraViole_text);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -215,12 +229,18 @@ public class WeatherActivity extends AppCompatActivity {
     String updateTime;
     String comfort;
     String carWash;
+    String dressing;
+    String flu;
     String sport;
+    String ultraViole;
+
    private void showWeatherInfo(Weather weather) {
         cityName = weather.basic.cityName;
         updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
+        String weatherCode = weather.now.more.img_code;
+        setWeatherImg(weatherCode);
         titleCity.setText(cityName);
         titleUpdateTime.setText(updateTime);
         degreeText.setText(degree);
@@ -242,16 +262,59 @@ public class WeatherActivity extends AppCompatActivity {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
-        comfort = "舒适度：" + weather.suggestion.comfort.info;
-        carWash = "洗车指数：" + weather.suggestion.carWash.info;
-        sport = "运行建议：" + weather.suggestion.sport.info;
+        comfort = "舒适度：" + weather.suggestion.comfort.keyWord + "\n" + "简介：" + weather.suggestion.comfort.info;
+        carWash = "洗车指数：" + weather.suggestion.carWash.keyWord + "\n" + "简介：" + weather.suggestion.carWash.info;
+        dressing = "穿衣指数：" + weather.suggestion.dressing.keyWord + "\n" + "简介：" + weather.suggestion.dressing.info;
+        flu = "感冒指数：" + weather.suggestion.flu.keyWord + "\n" + "简介：" + weather.suggestion.flu.info;
+        sport = "运动建议：" + weather.suggestion.sport.keyWord + "\n" + "简介：" + weather.suggestion.sport.info;
+        ultraViole = "紫外线指数：" + weather.suggestion.ultraViolet.keyWord + "\n" + "简介：" + weather.suggestion.ultraViolet.info;
+
         comfortText.setText(comfort);
         carWashText.setText(carWash);
+        dressingText.setText(dressing);
+        fluText.setText(flu);
         sportText.setText(sport);
+        ultraVioleText.setText(ultraViole);
+
         weatherLayout.setVisibility(View.VISIBLE);
         //激活AutoUpdateService服务
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
+    }
+
+    public Bitmap getWeatherImg(String path){
+        Bitmap bitmap=null;
+        try{
+            URL url=new URL(path);
+            URLConnection connection=url.openConnection();
+            connection.connect();
+            InputStream inputStream=connection.getInputStream();
+            bitmap= BitmapFactory.decodeStream(inputStream);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  bitmap;
+    }
+    public void setWeatherImg(final String weatherCode){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap bitmap=getWeatherImg("https://cdn.heweather.com/cond_icon/" + weatherCode + ".png");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                weatherImg.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        weatherImg.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        }).start();
     }
     /*
     *分享生活建议
@@ -259,7 +322,10 @@ public class WeatherActivity extends AppCompatActivity {
     public void onShare(View view) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, cityName + updateTime + ":\n" + comfort + "\n" + carWash + "\n" + sport);
+        String mySuggestionToElse;
+        mySuggestionToElse = cityName + updateTime + ":\n" + comfort + "\n" + carWash + "\n"
+                + dressing + "\n" + flu + "\n" + sport + "\n" + ultraViole;
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mySuggestionToElse);
         shareIntent.setType("text/plain");
 
         //设置分享列表的标题，并且每次都显示分享列表

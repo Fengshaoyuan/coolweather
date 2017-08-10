@@ -41,7 +41,7 @@ public class ChooseAreaFragment extends Fragment {
     private ProgressDialog progressDialog;
     private TextView titleText;
     private Button backButton;
-    private ListView listView;
+    public ListView listView;
     private ArrayAdapter<String> adapter;
     private List<String> dataList = new ArrayList<>();
     /**

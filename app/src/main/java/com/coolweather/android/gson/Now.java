@@ -11,10 +11,12 @@ public class Now {
     public String temperature;
 
     @SerializedName("cond")
-
     public More more;
 
     public class More{
+
+        @SerializedName("code")
+        public String img_code;
 
         @SerializedName("txt")
         public String info;
