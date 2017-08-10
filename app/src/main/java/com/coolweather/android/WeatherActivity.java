@@ -46,67 +46,94 @@ import okhttp3.Response;
 public class WeatherActivity extends AppCompatActivity {
 
     public DrawerLayout drawerLayout;
+//    title
     private Button navButton;
-    public SwipeRefreshLayout swipeRefresh;
-    private String mWeatherId;
-    private ImageView bingPicImg;       //必应每日一图
-    private ScrollView weatherLayout;
     private TextView titleCity;
     private TextView titleUpdateTime;
+
+    public SwipeRefreshLayout swipeRefresh;
+
+    private String mWeatherId;
+//    必应每日一图
+    private ImageView bingPicImg;
+
+    private ScrollView weatherLayout;
+//    now
     private TextView degreeText;
     private TextView weatherInfoText;
     private ImageView weatherImg;
+
     private LinearLayout forecastLayout;
+//    AQI 空气质量指数
     private TextView aqiText;
     private TextView pm25Text;
+    private TextView coText;
+    private TextView no2Text;
+    private TextView o3Text;
+    private TextView pm10Text;
+    private TextView qltyText;
+    private TextView so2Text;
+//    Suggestion
     private TextView comfortText;
     private TextView carWashText;
     private TextView dressingText;
     private TextView fluText;
     private TextView sportText;
     private TextView ultraVioleText;
-    /*分享复选框*/
+//    分享复选框
     private CheckBox cbComfort;
     private CheckBox cbCarWash;
     private CheckBox cbDressing;
     private CheckBox cbFlu;
     private CheckBox cbSport;
     private CheckBox cbUltraViole;
-    /*处理check事件*/
+//    处理check事件
     private View checkView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //判断版本
+//        判断版本
         if(Build.VERSION.SDK_INT >= 21){
             View decorView = getWindow().getDecorView();
-            //设置UI显示
+//            设置UI显示
             decorView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            //设置状态栏为透明
+//            设置状态栏为透明
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
         setContentView(R.layout.activity_weather);
-        //初始化控件
+//        初始化控件
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+//        title
         navButton = (Button)findViewById(R.id.nav_button);
-
+        titleCity = (TextView)findViewById(R.id.title_city);
+        titleUpdateTime = (TextView)findViewById(R.id.title_update_time);
 
         swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-
+//        必应每日一图
         bingPicImg = (ImageView)findViewById(R.id.bing_pic_img);
+
         weatherLayout = (ScrollView)findViewById(R.id.weather_layout);
-        titleCity = (TextView)findViewById(R.id.title_city);
-        titleUpdateTime = (TextView)findViewById(R.id.title_update_time);
+
+//        now
         degreeText = (TextView)findViewById(R.id.degree_text);
         weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
         weatherImg = (ImageView)findViewById(R.id.weather_img);
+
         forecastLayout = (LinearLayout)findViewById(R.id.forecast_layout);
+//        aqi
         aqiText = (TextView)findViewById(R.id.aqi_text);
         pm25Text = (TextView)findViewById(R.id.pm25_text);
+        coText = (TextView)findViewById(R.id.co_text);
+        no2Text = (TextView)findViewById(R.id.no2_text);
+        o3Text = (TextView)findViewById(R.id.o3_text);
+        pm10Text = (TextView)findViewById(R.id.pm10_text);
+        qltyText = (TextView)findViewById(R.id.qlty_text);
+        so2Text = (TextView)findViewById(R.id.so2_text);
+//        sugesstion
         comfortText = (TextView)findViewById(R.id.comfort_text);
         carWashText = (TextView) findViewById(R.id.car_wash_text);
         dressingText = (TextView)findViewById(R.id.dressing_text);
@@ -302,6 +329,12 @@ public class WeatherActivity extends AppCompatActivity {
         if (weather.aqi != null) {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
+            coText.setText(weather.aqi.city.co);
+            no2Text.setText(weather.aqi.city.no2);
+            o3Text.setText(weather.aqi.city.o3);
+            pm10Text.setText(weather.aqi.city.pm10);
+            qltyText.setText(weather.aqi.city.qlty);
+            so2Text.setText(weather.aqi.city.so2);
         }
         comfort = "舒适度：" + weather.suggestion.comfort.keyWord + "\n" + "简介：" + weather.suggestion.comfort.info;
         carWash = "洗车指数：" + weather.suggestion.carWash.keyWord + "\n" + "简介：" + weather.suggestion.carWash.info;
