@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -64,6 +65,15 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView fluText;
     private TextView sportText;
     private TextView ultraVioleText;
+    /*分享复选框*/
+    private CheckBox cbComfort;
+    private CheckBox cbCarWash;
+    private CheckBox cbDressing;
+    private CheckBox cbFlu;
+    private CheckBox cbSport;
+    private CheckBox cbUltraViole;
+    /*处理check事件*/
+    private View checkView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -104,6 +114,16 @@ public class WeatherActivity extends AppCompatActivity {
         sportText = (TextView)findViewById(R.id.sport_text);
         ultraVioleText = (TextView)findViewById(R.id.ultraViole_text);
 
+//        复选框
+        cbComfort = (CheckBox)findViewById(R.id.cb_comfort);
+        cbCarWash = (CheckBox)findViewById(R.id.cb_car_wash);
+        cbDressing = (CheckBox)findViewById(R.id.cb_dressing);
+        cbFlu = (CheckBox)findViewById(R.id.cb_flu);
+        cbSport = (CheckBox)findViewById(R.id.cb_sport);
+        cbUltraViole = (CheckBox)findViewById(R.id.cb_ultraViole);
+
+        checkView =  findViewById(R.id.CheckBoxOnClick);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String bingPic = prefs.getString("bing_pic", null);
@@ -139,6 +159,27 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onRefresh(){
                 requestWeather(mWeatherId);
+            }
+        });
+        checkView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v) {
+                if(cbComfort.getVisibility() == View.GONE){
+                    cbComfort.setVisibility(View.VISIBLE);
+                    cbCarWash.setVisibility(View.VISIBLE);
+                    cbDressing.setVisibility(View.VISIBLE);
+                    cbFlu.setVisibility(View.VISIBLE);
+                    cbSport.setVisibility(View.VISIBLE);
+                    cbUltraViole.setVisibility(View.VISIBLE);
+                }else if(cbComfort.getVisibility() == View.VISIBLE){
+                    cbComfort.setVisibility(View.GONE);
+                    cbCarWash.setVisibility(View.GONE);
+                    cbDressing.setVisibility(View.GONE);
+                    cbFlu.setVisibility(View.GONE);
+                    cbSport.setVisibility(View.GONE);
+                    cbUltraViole.setVisibility(View.GONE);
+                }
+                return true;
             }
         });
     }
@@ -322,9 +363,27 @@ public class WeatherActivity extends AppCompatActivity {
     public void onShare(View view) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        String mySuggestionToElse;
-        mySuggestionToElse = cityName + updateTime + ":\n" + comfort + "\n" + carWash + "\n"
-                + dressing + "\n" + flu + "\n" + sport + "\n" + ultraViole;
+        String mySuggestionToElse = cityName + updateTime + ":\n" ;
+        /*mySuggestionToElse = cityName + updateTime + ":\n" + comfort + "\n" + carWash + "\n"
+                + dressing + "\n" + flu + "\n" + sport + "\n" + ultraViole;*/
+        if(cbComfort.isChecked()){
+            mySuggestionToElse += comfort;
+        }
+        if(cbCarWash.isChecked()){
+            mySuggestionToElse += "\n" + carWash;
+        }
+        if(cbDressing.isChecked()){
+            mySuggestionToElse += "\n" + dressing;
+        }
+        if(cbFlu.isChecked()){
+            mySuggestionToElse += "\n" + flu;
+        }
+        if(cbSport.isChecked()){
+            mySuggestionToElse += "\n" + sport;
+        }
+        if(cbUltraViole.isChecked()){
+            mySuggestionToElse += "\n" + ultraViole;
+        }
         shareIntent.putExtra(Intent.EXTRA_TEXT, mySuggestionToElse);
         shareIntent.setType("text/plain");
 

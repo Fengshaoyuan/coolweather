@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/CheckBoxOnClick"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
-    android:background="#8000">
+    android:background="#8000"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +20,7 @@
             android:layout_marginTop="15dp"
             android:text="生活建议"
             android:textColor="#fff"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
 
         <!--分享天气-->
@@ -29,50 +31,146 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:background="@android:drawable/ic_menu_share"
-            android:onClick="onShare"/>
+            android:onClick="onShare" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/comfort_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/car_wash_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff" />
+        <CheckBox
+            android:id="@+id/cb_comfort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:buttonTint="#fff" />
 
-    <TextView
-        android:id="@+id/dressing_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff" />
+        <TextView
+            android:id="@+id/comfort_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="7"
+            android:textColor="#fff" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/flu_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/sport_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff" />
+        <CheckBox
+            android:id="@+id/cb_car_wash"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:buttonTint="#fff" />
 
-    <TextView
-        android:id="@+id/ultraViole_text"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/car_wash_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="7"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff" />
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_dressing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:buttonTint="#fff" />
+
+        <TextView
+            android:id="@+id/dressing_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="7"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_flu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:buttonTint="#fff" />
+
+        <TextView
+            android:id="@+id/flu_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="7"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_sport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:buttonTint="#fff" />
+
+        <TextView
+            android:id="@+id/sport_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="7"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_ultraViole"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:buttonTint="#fff" />
+
+        <TextView
+            android:id="@+id/ultraViole_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="7"
+            android:textColor="#fff" />
+    </LinearLayout>
 
 </LinearLayout>
