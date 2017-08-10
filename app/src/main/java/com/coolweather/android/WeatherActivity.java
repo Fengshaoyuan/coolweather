@@ -62,6 +62,15 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView degreeText;
     private TextView weatherInfoText;
     private ImageView weatherImg;
+    private TextView flText;
+    private TextView humText;
+    private TextView pcpnText;
+    private TextView presText;
+    private TextView visText;
+    private TextView degText;
+    private TextView dirText;
+    private TextView scText;
+    private TextView spdText;
 
     private LinearLayout forecastLayout;
 //    AQI 空气质量指数
@@ -122,6 +131,15 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText = (TextView)findViewById(R.id.degree_text);
         weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
         weatherImg = (ImageView)findViewById(R.id.weather_img);
+        flText = (TextView) findViewById(R.id.fl_text);
+        humText = (TextView) findViewById(R.id.hum_text);
+        pcpnText = (TextView) findViewById(R.id.pcpn_text);
+        presText = (TextView) findViewById(R.id.pres_text);
+        visText = (TextView) findViewById(R.id.vis_text);
+        degText = (TextView) findViewById(R.id.deg_text);
+        dirText = (TextView) findViewById(R.id.dir_text);
+        scText = (TextView) findViewById(R.id.sc_text);
+        spdText = (TextView) findViewById(R.id.spd_text);
 
         forecastLayout = (LinearLayout)findViewById(R.id.forecast_layout);
 //        aqi
@@ -305,14 +323,36 @@ public class WeatherActivity extends AppCompatActivity {
    private void showWeatherInfo(Weather weather) {
         cityName = weather.basic.cityName;
         updateTime = weather.basic.update.updateTime.split(" ")[1];
-        String degree = weather.now.temperature + "℃";
+//        now
+        String temperatureNow = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         String weatherCode = weather.now.more.img_code;
-        setWeatherImg(weatherCode);
+        String feelNow = weather.now.feel;
+        String humidityNow = weather.now.humidity;
+        String precipitationNow = weather.now.precipitation;
+        String pressureNow = weather.now.pressure;
+        String visibilityNow = weather.now.visibility;
+        String degreeNow = weather.now.wind.degree;
+        String directionNow = weather.now.wind.direction;
+        String scaleNow = weather.now.wind.scale;
+        String speedNow = weather.now.wind.speed;
+
         titleCity.setText(cityName);
         titleUpdateTime.setText(updateTime);
-        degreeText.setText(degree);
+//       now
+        degreeText.setText(temperatureNow);
         weatherInfoText.setText(weatherInfo);
+        setWeatherImg(weatherCode);
+        flText.setText("体感温度：" + feelNow + "℃");
+        humText.setText("相对湿度：" + humidityNow + "%");
+        pcpnText.setText("降水量:" + precipitationNow + "mm");
+        presText.setText("气压：" + pressureNow + "hPa");
+        visText.setText("能见度：" + visibilityNow + "km");
+        degText.setText("风向：" + degreeNow + "°");
+        dirText.setText("风向：" + directionNow);
+        scText.setText("风力：" + scaleNow);
+        spdText.setText("风速：" + speedNow + "kmph");
+
         forecastLayout.removeAllViews();
         for (Forecast forecast : weather.forecastList) {
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false);
