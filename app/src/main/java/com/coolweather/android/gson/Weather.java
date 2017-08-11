@@ -12,6 +12,8 @@ public class Weather {
 
     public String status;
 
+    public Alarms alarms;
+
     public Basic basic;
 
     public AQI aqi;
@@ -21,6 +23,6 @@ public class Weather {
     public Suggestion suggestion;
 
     @SerializedName("daily_forecast")
-    public List<Forecast> forecastList;
+    public List<DailyForecast> dailyForecastList;
 
 }

@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.coolweather.android.gson.Forecast;
+import com.coolweather.android.gson.DailyForecast;
 import com.coolweather.android.gson.Weather;
 import com.coolweather.android.service.AutoUpdateService;
 import com.coolweather.android.util.HttpUtil;
@@ -73,6 +73,11 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView spdText;
 
     private LinearLayout forecastLayout;
+
+//    Alarms
+    private TextView alarmsTitleText;
+    private TextView alarmsElseText;
+
 //    AQI 空气质量指数
     private TextView aqiText;
     private TextView pm25Text;
@@ -98,6 +103,8 @@ public class WeatherActivity extends AppCompatActivity {
     private CheckBox cbUltraViole;
 //    处理check事件
     private View checkView;
+//    处理灾害预警显示
+    private View alarmsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -142,6 +149,11 @@ public class WeatherActivity extends AppCompatActivity {
         spdText = (TextView) findViewById(R.id.spd_text);
 
         forecastLayout = (LinearLayout)findViewById(R.id.forecast_layout);
+
+//        alarms
+        alarmsTitleText = (TextView)findViewById(R.id.alarms_title_text);
+        alarmsElseText = (TextView)findViewById(R.id.alarms_else_text);
+
 //        aqi
         aqiText = (TextView)findViewById(R.id.aqi_text);
         pm25Text = (TextView)findViewById(R.id.pm25_text);
@@ -167,7 +179,9 @@ public class WeatherActivity extends AppCompatActivity {
         cbSport = (CheckBox)findViewById(R.id.cb_sport);
         cbUltraViole = (CheckBox)findViewById(R.id.cb_ultraViole);
 
+//        控制是否显示
         checkView =  findViewById(R.id.CheckBoxOnClick);
+        alarmsView = findViewById(R.id.alarms_layout);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -319,6 +333,8 @@ public class WeatherActivity extends AppCompatActivity {
     String flu;
     String sport;
     String ultraViole;
+    String alarmsTitle;
+    String alarmsInfo;
 
    private void showWeatherInfo(Weather weather) {
         cityName = weather.basic.cityName;
@@ -354,17 +370,27 @@ public class WeatherActivity extends AppCompatActivity {
         spdText.setText("风速：" + speedNow + "kmph");
 
         forecastLayout.removeAllViews();
-        for (Forecast forecast : weather.forecastList) {
+        for (DailyForecast dailyForecast : weather.dailyForecastList) {
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false);
             TextView dateText = (TextView) view.findViewById(R.id.date_text);
             TextView infoText = (TextView) view.findViewById(R.id.info_text);
             TextView maxText = (TextView) view.findViewById(R.id.max_text);
             TextView minText = (TextView) view.findViewById(R.id.min_text);
-            dateText.setText(forecast.date);
-            infoText.setText(forecast.more.info);
-            maxText.setText(forecast.temperature.max);
-            minText.setText(forecast.temperature.min);
+            dateText.setText(dailyForecast.date);
+            infoText.setText(dailyForecast.more.info);
+            maxText.setText(dailyForecast.temperature.max);
+            minText.setText(dailyForecast.temperature.min);
             forecastLayout.addView(view);
+        }
+
+        if(weather.alarms != null){
+            alarmsView.setVisibility(View.VISIBLE);
+            alarmsTitle = weather.alarms.title;
+            alarmsTitleText.setText(alarmsTitle);
+            alarmsInfo = "预警等级：" + weather.alarms.level + "\n预警状态:" + weather.alarms.stat + "\n信息详情：" +  weather.alarms.txt + "\n天气类型：" + weather.alarms.type;
+            alarmsElseText.setText(alarmsInfo);
+        }else{
+            alarmsView.setVisibility(View.GONE);
         }
         if (weather.aqi != null) {
             aqiText.setText(weather.aqi.city.aqi);
@@ -430,13 +456,27 @@ public class WeatherActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    /*
+    * 分享灾害预警
+    * */
+    public void onAlarmsShare(View view) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        String myAlarmsToElse = cityName+ "：" + updateTime + "\n" + alarmsTitle + "\n" + alarmsInfo ;
+        shareIntent.putExtra(Intent.EXTRA_TEXT, myAlarmsToElse);
+        shareIntent.setType("text/plain");
+
+        //设置分享列表的标题，并且每次都显示分享列表
+        startActivity(Intent.createChooser(shareIntent, "分享到"));
+    }
     /*
     *分享生活建议
     * */
-    public void onShare(View view) {
+    public void onSuggestionShare(View view) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        String mySuggestionToElse = cityName + updateTime + ":\n" ;
+        String mySuggestionToElse = cityName +"：" + updateTime + ":\n" ;
         /*mySuggestionToElse = cityName + updateTime + ":\n" + comfort + "\n" + carWash + "\n"
                 + dressing + "\n" + flu + "\n" + sport + "\n" + ultraViole;*/
         if(cbComfort.isChecked()){

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by lenovo on 2017/7/29.
  */
 
-public class Forecast {
+public class DailyForecast {
 
     public String date;
 

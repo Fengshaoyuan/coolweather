@@ -40,6 +40,8 @@
 
             <include layout="@layout/now" />
 
+            <include layout="@layout/alarms" />
+
             <include layout="@layout/forecast"/>
 
             <include layout="@layout/aqi"/>
