@@ -19,7 +19,8 @@
             android:layout_marginTop="15dp"
             android:text="灾害预警"
             android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="15dp" />
 
 
         <!--分享灾害预警-->
@@ -30,7 +31,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:background="@android:drawable/ic_menu_share"
-            android:onClick="onAlarmsShare" />
+            android:onClick="onAlarmsShare"
+            android:layout_marginStart="15dp" />
 
     </LinearLayout>
 

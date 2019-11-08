@@ -4,10 +4,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 /**
- * Created by lenovo on 2017/7/29.
- */
-
-/**
  * 用OKHttp封装，与服务器进行交互
  * 只需要调用sendOKHttpRequest()方法
  */

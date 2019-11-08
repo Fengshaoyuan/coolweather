@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/CheckBoxOnClick"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,6 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:text="生活建议"
@@ -28,6 +28,7 @@
             android:id="@+id/share_suggestion_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:background="@android:drawable/ic_menu_share"
@@ -46,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            app:buttonTint="#fff" />
+            android:buttonTint="#fff"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/comfort_text"
@@ -69,8 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            app:buttonTint="#fff" />
+            android:buttonTint="#fff"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/car_wash_text"
@@ -84,7 +85,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/cb_dressing"
@@ -92,8 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            app:buttonTint="#fff" />
+            android:buttonTint="#fff"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/dressing_text"
@@ -107,7 +109,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/cb_flu"
@@ -115,8 +118,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            app:buttonTint="#fff" />
+            android:buttonTint="#fff"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/flu_text"
@@ -138,8 +141,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            app:buttonTint="#fff" />
+            android:buttonTint="#fff"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/sport_text"
@@ -153,7 +156,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/cb_ultraViole"
@@ -161,8 +165,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            app:buttonTint="#fff" />
+            android:buttonTint="#fff"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/ultraViole_text"
